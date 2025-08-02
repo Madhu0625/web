@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Place Order</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Place Your Order</h1>
+    <form id="orderForm">
+      <label for="fuelType">Fuel Type:</label><br>
+      <select id="fuelType" name="fuelType" required>
+        <option value="premium petrol">Premium Petrol</option>
+        <option value="local petrol">Local petrol</option>
+        <option value="premium diesel">Premium Diesel</option>
+        <option value="local diesel">Local diesel</option>
+      </select><br><br>
+     
+      <label for="quantity">Quantity:</label><br>
+      <input type="number" id="quantity" name="quantity" min="1" required><br><br>
+
+      <label for="paymentMethod">Payment Method:</label><br>
+      <select id="paymentMethod" name="paymentMethod" required>
+        <option value="online">Online Payment</option>
+        <option value="cod">Cash on Delivery</option>
+      </select><br><br>
+
+      <button type="button" id="calculatePriceBtn">Calculate Price</button><br>
+      <span id="price"></span><br><br>
+     
+      <!-- Replace button with a "Share Location" button -->
+      <button type="button" id="shareLocationBtn">Share Location</button><br>
+      <span id="liveLocation"></span><br><br>
+     
+      <button type="submit">Place Order</button>
+    </form>
+
+    <!-- Order History Section -->
+    <h2>Order History</h2>
+    <ul id="orderHistory">
+      <!-- Order history items will be added dynamically here -->
+    </ul>
+  </div>
+
+  <script>
+    document.getElementById("orderForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+     
+      // Get form data
+      var fuelType = document.getElementById("fuelType").value;
+      var quantity = document.getElementById("quantity").value;
+      var paymentMethod = document.getElementById("paymentMethod").value;
+      var address = document.getElementById("liveLocation").innerText; // Use live location instead of address
+     
+      // Process order (you can send it to a server or do other actions here)
+      alert("Your order has been placed:\nFuel Type: " + fuelType + "\nQuantity: " + quantity + "\nPayment Method: " + paymentMethod + "\nDelivery Location: " + address);
+     
+      // Clear form fields
+      document.getElementById("orderForm").reset();
+
+      // Add order to order history
+      var orderDetails = "Fuel Type: " + fuelType + ", Quantity: " + quantity + ", Payment Method: " + paymentMethod + ", Delivery Location: " + address;
+      var orderItem = document.createElement("li");
+      orderItem.textContent = orderDetails;
+      document.getElementById("orderHistory").appendChild(orderItem);
+    });
+
+    // Function to share live location
+    document.getElementById("shareLocationBtn").addEventListener("click", function() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var latitude = position.coords.latitude;
+          var longitude = position.coords.longitude;
+          document.getElementById("liveLocation").innerText = "Latitude: " + latitude + ", Longitude: " + longitude;
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    });
+
+    // Function to calculate price
+    document.getElementById("calculatePriceBtn").addEventListener("click", function() {
+      var fuelType = document.getElementById("fuelType").value;
+      var quantity = parseInt(document.getElementById("quantity").value);
+      var pricePerUnit;
+
+      // Determine price per unit based on fuel type
+      switch (fuelType) {
+        case "premium petrol":
+          pricePerUnit = 130;
+          break;
+        case "local petrol":
+          pricePerUnit = 112;
+          break;
+        case "premium diesel":
+          pricePerUnit = 130;
+          break;
+        case "local diesel":
+          pricePerUnit = 104;
+          break;
+        default:
+          pricePerUnit = 0;
+      }
+
+      var totalPrice = pricePerUnit * quantity;
+      document.getElementById("price").innerText = "Total Price: ₹" + totalPrice.toFixed(2);
+    });
+  </script>
+</body>
+</html>
