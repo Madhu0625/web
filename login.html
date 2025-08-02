@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <img src="fuel.jpg" alt="Login Image" class="login-image">
+        <h2>Login</h2>
+        <form id="loginForm" action="login.php" method="POST">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password">
+            </div>
+            <div class="input-group">
+                <label for="role">Select Role:</label>
+                <select id="role" name="role">
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                    <option value="driver">Driver</option>
+                </select>
+            </div>
+            <button type="submit">Login</button>
+
+            <p id="message"></p>
+        </form>
+        <div class="register-link">
+            <p>New user? <a href="register.html">Register here</a></p>
+        </div>
+</div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        var role = document.getElementById("role").value;
+
+        // Redirect based on the selected role
+        switch (role) {
+            case "user":
+                window.location.href = "home.html";
+                break;
+            case "admin":
+                window.location.href = "admin.html";
+                break;
+            case "driver":
+                window.location.href = "driver.html"; // Redirect to driver page
+                break;
+            default:
+                // Handle other roles if necessary
+        }
+    });
+</script>
+
+</body>
+</html>
